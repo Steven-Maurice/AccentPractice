@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "AccentPractice",
+  "version": "1.0",
+  "description": "Practice and improve your foreign language accent by selecting YouTube video segments and recording your voice.",
+  "permissions": ["activeTab", "tabCapture", "microphone"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["content.js"]
+    }
+  ]
+}
