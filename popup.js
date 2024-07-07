@@ -5,6 +5,20 @@ let segments = [];
 const startSound = new Audio("start-sound.mp3");
 const stopSound = new Audio("stop-sound.mp3");
 
+// Load segments from local storage
+document.addEventListener("DOMContentLoaded", () => {
+  if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) {
+    chrome.storage.local.get(["segments"], function (result) {
+      if (result.segments) {
+        segments = result.segments;
+        renderSegments();
+      }
+    });
+  } else {
+    console.error("chrome.storage.local is not available");
+  }
+});
+
 function handleSetSegment() {
   const startTime = document.getElementById("start-time").value;
   const endTime = document.getElementById("end-time").value;
@@ -76,6 +90,7 @@ function handleStopRecording() {
 function addSegment(startTime, endTime) {
   const segment = { startTime, endTime };
   segments.push(segment);
+  //   saveSegments();
   renderSegments();
 }
 
@@ -121,6 +136,7 @@ function playSegment(index) {
 
 function deleteSegment(index) {
   segments.splice(index, 1);
+  //   saveSegments();
   renderSegments();
 }
 
@@ -140,9 +156,18 @@ function uploadSegments(event) {
   const reader = new FileReader();
   reader.onload = function (event) {
     segments = JSON.parse(event.target.result);
+    // saveSegments();
     renderSegments();
   };
   reader.readAsText(file);
+}
+
+function saveSegments() {
+  if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) {
+    chrome.storage.local.set({ segments: segments });
+  } else {
+    console.error("chrome.storage.local is not available");
+  }
 }
 
 document
