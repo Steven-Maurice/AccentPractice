@@ -2,24 +2,76 @@
 <html>
 
 <head>
-    <title>YouTube Segment Player & Voice Recorder</title>
+    <title>AccentPractice</title>
     <style>
-        /* Ajoutez du style selon vos besoins */
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #333;
+        }
+
+        label {
+            margin-top: 10px;
+            display: block;
+            color: #555;
+        }
+
+        input {
+            padding: 5px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #audio-container {
+            margin-top: 20px;
+        }
     </style>
 </head>
 
 <body>
-    <h1>YouTube Segment Player</h1>
-    <label for="start-time">Start Time (seconds):</label>
-    <input type="number" id="start-time" min="0"><br>
-    <label for="end-time">End Time (seconds):</label>
-    <input type="number" id="end-time" min="0"><br>
-    <button id="set-segment">Set Segment</button>
+    <h1>AccentPractice</h1>
 
-    <h1>Voice Recorder</h1>
-    <button id="record">Record</button>
-    <button id="stop-record">Stop</button>
-    <button id="play-recording">Play</button>
+    <div>
+        <h2>YouTube Segment Player</h2>
+        <label for="start-time">Start Time (seconds):</label>
+        <input type="number" id="start-time" min="0">
+        <label for="end-time">End Time (seconds):</label>
+        <input type="number" id="end-time" min="0">
+        <button id="set-segment">Set Segment</button>
+    </div>
+
+    <div>
+        <h2>Voice Recorder</h2>
+        <button id="record">Record</button>
+        <button id="stop-record">Stop</button>
+        <button id="play-recording">Play</button>
+    </div>
+
+    <div id="audio-container">
+        <audio id="audio-playback" controls></audio>
+    </div>
 
     <script src="popup.js"></script>
 </body>
