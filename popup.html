@@ -47,6 +47,22 @@
         #audio-container {
             margin-top: 20px;
         }
+
+        #recording-indicator {
+            display: none;
+            color: red;
+            font-weight: bold;
+        }
+
+        .segment {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .segment button {
+            margin-left: 10px;
+        }
     </style>
 </head>
 
@@ -67,10 +83,19 @@
         <button id="record">Record</button>
         <button id="stop-record">Stop</button>
         <button id="play-recording">Play</button>
+        <div id="recording-indicator">Recording...</div>
     </div>
 
     <div id="audio-container">
         <audio id="audio-playback" controls></audio>
+    </div>
+
+    <div>
+        <h2>Video Segments</h2>
+        <div id="segments-list"></div>
+        <button id="add-segment">Add Segment</button>
+        <button id="download-segments">Download Segments</button>
+        <input type="file" id="upload-segments">
     </div>
 
     <script src="popup.js"></script>
