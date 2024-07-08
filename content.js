@@ -1,5 +1,8 @@
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.action === "setSegment") {
+  if (request.action === "getTitle") {
+    const videoTitle = document.title;
+    sendResponse({ title: videoTitle });
+  } else if (request.action === "setSegment") {
     const video = document.querySelector("video");
     const { startTime, endTime } = request;
     video.currentTime = startTime;

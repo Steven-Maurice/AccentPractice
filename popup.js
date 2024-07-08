@@ -1,6 +1,7 @@
 let mediaRecorder;
 let audioChunks = [];
 let segments = [];
+let videoTitle = "";
 
 const startSound = new Audio("start-sound.mp3");
 const stopSound = new Audio("stop-sound.mp3");
@@ -17,6 +18,21 @@ document.addEventListener("DOMContentLoaded", () => {
   } else {
     console.error("chrome.storage.local is not available");
   }
+
+  // Get the video title
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.tabs.sendMessage(
+      tabs[0].id,
+      { action: "getTitle" },
+      function (response) {
+        if (response && response.title) {
+          videoTitle = response.title;
+        } else {
+          console.error("Failed to get video title");
+        }
+      }
+    );
+  });
 });
 
 function handleSetSegment() {
@@ -90,7 +106,7 @@ function handleStopRecording() {
 function addSegment(startTime, endTime) {
   const segment = { startTime, endTime };
   segments.push(segment);
-  //   saveSegments();
+  saveSegments();
   renderSegments();
 }
 
@@ -136,7 +152,7 @@ function playSegment(index) {
 
 function deleteSegment(index) {
   segments.splice(index, 1);
-  //   saveSegments();
+  saveSegments();
   renderSegments();
 }
 
@@ -147,7 +163,8 @@ function downloadSegments() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = "segments.json";
+  const safeTitle = videoTitle.replace(/[^a-z0-9]/gi, "_").toLowerCase(); // Clean title for filename
+  a.download = `${safeTitle}_segments.json`;
   a.click();
 }
 
@@ -156,7 +173,7 @@ function uploadSegments(event) {
   const reader = new FileReader();
   reader.onload = function (event) {
     segments = JSON.parse(event.target.result);
-    // saveSegments();
+    saveSegments();
     renderSegments();
   };
   reader.readAsText(file);
